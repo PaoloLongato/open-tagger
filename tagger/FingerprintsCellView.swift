@@ -10,6 +10,11 @@ import UIKit
 
 class FingerprintsCellView: UITableViewCell {
 
+    @IBOutlet weak var des: UILabel!
+    @IBOutlet weak var dataPointsNumber: UILabel!
+    @IBOutlet weak var resetButton: UIButton!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

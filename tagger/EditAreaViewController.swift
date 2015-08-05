@@ -8,19 +8,47 @@
 
 import UIKit
 
-class EditAreaViewController: UIViewController {
+class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
+    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var des: UITextView!
+    @IBOutlet weak var picture: UIImageView!
+    var area:Area?
+    var updateTable:(()->())?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        if let a = area {
+            name.text = area!.name
+            des.text = area!.des
+            picture.image = area!.picture
+            
+            name.delegate = self
+            des.delegate = self
+            
+            let tap = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+            self.view.addGestureRecognizer(tap)
+        }
     }
-
+    
+    func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        area!.name = name.text
+        if let a = updateTable {a()}
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        area!.des = des.text
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation

@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52092DEB1B666A00001CB3F4 /* EditAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52092DEA1B666A00001CB3F4 /* EditAreaViewController.swift */; };
+		5211624B1B657D140059A101 /* FingerprintsCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5211624A1B657D140059A101 /* FingerprintsCellView.swift */; };
+		5263C5CA1B68E84800C48BF0 /* BeaconDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5263C5C91B68E84800C48BF0 /* BeaconDB.swift */; };
+		526CEBC21B677398000764FB /* FingerprintsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526CEBC11B677398000764FB /* FingerprintsTableViewController.swift */; };
+		526CEBC41B67A3FA000764FB /* BeaconMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526CEBC31B67A3FA000764FB /* BeaconMonitor.swift */; };
+		526CEBC61B67BBA9000764FB /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526CEBC51B67BBA9000764FB /* Beacon.swift */; };
+		526CEBCA1B67CC6B000764FB /* BeaconMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526CEBC91B67CC6B000764FB /* BeaconMatrix.swift */; };
 		52E25BDE1B638EA200A281D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25BDD1B638EA200A281D2 /* AppDelegate.swift */; };
 		52E25BE01B638EA200A281D2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25BDF1B638EA200A281D2 /* FirstViewController.swift */; };
 		52E25BE21B638EA200A281D2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25BE11B638EA200A281D2 /* SecondViewController.swift */; };
@@ -14,6 +21,10 @@
 		52E25BE71B638EA200A281D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52E25BE61B638EA200A281D2 /* Images.xcassets */; };
 		52E25BEA1B638EA200A281D2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52E25BE81B638EA200A281D2 /* LaunchScreen.xib */; };
 		52E25BF61B638EA200A281D2 /* taggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25BF51B638EA200A281D2 /* taggerTests.swift */; };
+		52E25C021B63A4C100A281D2 /* AreasTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25C011B63A4C100A281D2 /* AreasTableViewController.swift */; };
+		52E25C041B63B5D800A281D2 /* AreasCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25C031B63B5D800A281D2 /* AreasCellView.swift */; };
+		52E25C061B63B6C600A281D2 /* AreasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25C051B63B6C600A281D2 /* AreasModel.swift */; };
+		52E25C081B63B76100A281D2 /* Area.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25C071B63B76100A281D2 /* Area.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +38,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52092DEA1B666A00001CB3F4 /* EditAreaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditAreaViewController.swift; sourceTree = "<group>"; };
+		5211624A1B657D140059A101 /* FingerprintsCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FingerprintsCellView.swift; sourceTree = "<group>"; };
+		5263C5C91B68E84800C48BF0 /* BeaconDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconDB.swift; sourceTree = "<group>"; };
+		526CEBC11B677398000764FB /* FingerprintsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FingerprintsTableViewController.swift; sourceTree = "<group>"; };
+		526CEBC31B67A3FA000764FB /* BeaconMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconMonitor.swift; sourceTree = "<group>"; };
+		526CEBC51B67BBA9000764FB /* Beacon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
+		526CEBC91B67CC6B000764FB /* BeaconMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BeaconMatrix.swift; path = ../BeaconMatrix.swift; sourceTree = "<group>"; };
 		52E25BD81B638EA200A281D2 /* tagger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tagger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52E25BDC1B638EA200A281D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52E25BDD1B638EA200A281D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +56,10 @@
 		52E25BEF1B638EA200A281D2 /* taggerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = taggerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52E25BF41B638EA200A281D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52E25BF51B638EA200A281D2 /* taggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = taggerTests.swift; sourceTree = "<group>"; };
+		52E25C011B63A4C100A281D2 /* AreasTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreasTableViewController.swift; sourceTree = "<group>"; };
+		52E25C031B63B5D800A281D2 /* AreasCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreasCellView.swift; sourceTree = "<group>"; };
+		52E25C051B63B6C600A281D2 /* AreasModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreasModel.swift; sourceTree = "<group>"; };
+		52E25C071B63B76100A281D2 /* Area.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Area.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +101,21 @@
 		52E25BDA1B638EA200A281D2 /* tagger */ = {
 			isa = PBXGroup;
 			children = (
+				52E25C011B63A4C100A281D2 /* AreasTableViewController.swift */,
 				52E25BDD1B638EA200A281D2 /* AppDelegate.swift */,
 				52E25BDF1B638EA200A281D2 /* FirstViewController.swift */,
 				52E25BE11B638EA200A281D2 /* SecondViewController.swift */,
 				52E25BE31B638EA200A281D2 /* Main.storyboard */,
+				526CEBC11B677398000764FB /* FingerprintsTableViewController.swift */,
+				52092DEA1B666A00001CB3F4 /* EditAreaViewController.swift */,
+				52E25C051B63B6C600A281D2 /* AreasModel.swift */,
+				52E25C071B63B76100A281D2 /* Area.swift */,
+				52E25C031B63B5D800A281D2 /* AreasCellView.swift */,
+				5211624A1B657D140059A101 /* FingerprintsCellView.swift */,
+				526CEBC31B67A3FA000764FB /* BeaconMonitor.swift */,
+				5263C5C91B68E84800C48BF0 /* BeaconDB.swift */,
+				526CEBC51B67BBA9000764FB /* Beacon.swift */,
+				526CEBC91B67CC6B000764FB /* BeaconMatrix.swift */,
 				52E25BE61B638EA200A281D2 /* Images.xcassets */,
 				52E25BE81B638EA200A281D2 /* LaunchScreen.xib */,
 				52E25BDB1B638EA200A281D2 /* Supporting Files */,
@@ -216,8 +249,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				52E25BE21B638EA200A281D2 /* SecondViewController.swift in Sources */,
+				52E25C081B63B76100A281D2 /* Area.swift in Sources */,
+				526CEBC21B677398000764FB /* FingerprintsTableViewController.swift in Sources */,
+				52E25C021B63A4C100A281D2 /* AreasTableViewController.swift in Sources */,
+				5211624B1B657D140059A101 /* FingerprintsCellView.swift in Sources */,
+				52092DEB1B666A00001CB3F4 /* EditAreaViewController.swift in Sources */,
+				526CEBCA1B67CC6B000764FB /* BeaconMatrix.swift in Sources */,
 				52E25BDE1B638EA200A281D2 /* AppDelegate.swift in Sources */,
+				52E25C041B63B5D800A281D2 /* AreasCellView.swift in Sources */,
+				5263C5CA1B68E84800C48BF0 /* BeaconDB.swift in Sources */,
+				526CEBC41B67A3FA000764FB /* BeaconMonitor.swift in Sources */,
+				52E25C061B63B6C600A281D2 /* AreasModel.swift in Sources */,
 				52E25BE01B638EA200A281D2 /* FirstViewController.swift in Sources */,
+				526CEBC61B67BBA9000764FB /* Beacon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +339,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -334,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -415,6 +459,7 @@
 				52E25BFB1B638EA200A281D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		52E25BFC1B638EA200A281D2 /* Build configuration list for PBXNativeTarget "taggerTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +468,7 @@
 				52E25BFE1B638EA200A281D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

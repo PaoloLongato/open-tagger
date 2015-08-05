@@ -8,8 +8,14 @@
 
 import UIKit
 
-class AreasCellViewController: UITableViewCell {
+class AreasCellView: UITableViewCell {
 
+    
+    @IBOutlet weak var icon: UIImageView!
+    @IBOutlet weak var desc: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
