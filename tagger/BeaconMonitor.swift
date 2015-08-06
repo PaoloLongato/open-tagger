@@ -100,7 +100,7 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
             delegate.beaconMonitor(self, didReceiveAuthorisation: .Always)
         default: println(status)
         }
-        //println("STATUS CHANGE")
+        println("STATUS CHANGE")
     }
     
     func requireAuthorization(){

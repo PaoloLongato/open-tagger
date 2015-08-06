@@ -14,7 +14,6 @@ class FingerprintsCellView: UITableViewCell {
     @IBOutlet weak var dataPointsNumber: UILabel!
     @IBOutlet weak var resetButton: UIButton!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,6 +23,5 @@ class FingerprintsCellView: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-
+    }    
 }

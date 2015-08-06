@@ -9,12 +9,15 @@
 import UIKit
 import CoreLocation
 
-class FingerprintsTableViewController: UITableViewController, BeaconMonitorDelegate {
+class FingerprintsTableViewController: UITableViewController, UITableViewDelegate, BeaconMonitorDelegate {
 
     var area:Area!
     var beacons:BeaconMatrix!
+    var labels:[String] = []
     var remoteBeacons = beaconDB()
     var monitor:BeaconMonitor?
+    var selectedCell = -1
+    var selectedCellIndexPath:NSIndexPath?
     @IBOutlet weak var naviItem: UINavigationItem!
     
     override func viewDidLoad() {
@@ -25,7 +28,8 @@ class FingerprintsTableViewController: UITableViewController, BeaconMonitorDeleg
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        beacons = BeaconMatrix(beacons: remoteBeacons.beacons)
+        beacons = BeaconMatrix(beacons: remoteBeacons.beacons, limit:30)
+        labels.append("\(selectedCell)")
         
         if let m = BeaconMonitor(delegate: self, UUID: remoteBeacons.beacons.first!.uuid, authorisation: .Always){
             monitor = m
@@ -68,13 +72,22 @@ class FingerprintsTableViewController: UITableViewController, BeaconMonitorDeleg
     }
 
     @IBAction func addArea() {
-        area.fingerprints.addArea()
-        tableView.reloadData()
+        if selectedCell == -1 {
+            area.fingerprints.addArea()
+            area.fingerprints.list.last?.name = "\(area.id)_\(area.fingerprints.list.last!.id)"
+            tableView.reloadData()
+        }
     }
     
     @IBAction func dismissView() {
         monitor?.stop()
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func resetData(sender:UIButton) {
+        if selectedCell > -1 {
+            area.fingerprints.list[sender.tag].data = []
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -135,12 +148,19 @@ class FingerprintsTableViewController: UITableViewController, BeaconMonitorDeleg
     }
     */
     
-    // DELEGATE METHODS
+    // BEACON MONITOR DELEGATE METHODS
     func beaconMonitor(monitor: BeaconMonitor, didFindCLBeacons beacons: [CLBeacon]){
         //beacons.map({println($0.major)})
         var bcs:[Beacon] = []
         beacons.map({ bcs.append(Beacon(beacon: $0)) })
         self.beacons.addBeacons(bcs)
+        if selectedCell > -1 {
+            self.area.fingerprints.list[selectedCell].data.append( self.beacons.beacons.map({Double($0.last!.rssi!)}) )
+            if let path = selectedCellIndexPath {
+                let cell = tableView.cellForRowAtIndexPath(path) as! FingerprintsCellView
+                cell.dataPointsNumber.text = "\(area.fingerprints.list[path.row].data.count)"
+            }
+        }
     }
     
     func beaconMonitor(monitor: BeaconMonitor, errorScanningBeacons error: BeaconMonitorError){
@@ -158,6 +178,35 @@ class FingerprintsTableViewController: UITableViewController, BeaconMonitorDeleg
     func beaconMonitor(monitor: BeaconMonitor, didReceiveAuthorisation authorisation: BeaconMonitorAuthorisationType) {
         println("Authorisation")
         monitor.start()
+    }
+    
+    // TABLE VIEW DELEGATE METHODS
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        println("DESELECTED")
+        selectedCell = -1
+        selectedCellIndexPath = nil
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println("DID SELECT")
+        selectedCell = indexPath.row
+        selectedCellIndexPath = indexPath
+    }
+    
+    override func tableView(tableView: UITableView, willDeselectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        println("WILL DESELECT")
+        return indexPath
+    }
+    
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if cell?.selected == true {
+            tableView.delegate?.tableView!(tableView, willDeselectRowAtIndexPath: indexPath)
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            tableView.delegate?.tableView!(tableView, didDeselectRowAtIndexPath: indexPath)
+            return nil
+        }
+        return indexPath
     }
 
 }

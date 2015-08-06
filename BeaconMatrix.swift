@@ -10,12 +10,13 @@ import Foundation
 
 class BeaconMatrix {
     var beacons: [[Beacon]] = []
-    private let limit = 30
+    private var limit = 0
     private let maLimit = 10
     
-    required init?(beacons b:[Beacon]){
-        if b.count > 0 {
+    required init?(beacons b:[Beacon], limit:Int = -1){
+        if b.count > 0 && limit > 0 {
             b.map({ self.beacons.append([$0]) })
+            self.limit = limit
         } else {
             return nil
         }
@@ -55,6 +56,24 @@ class BeaconMatrix {
             return output
         }
         self.beacons = self.beacons.map({ addBeaconIfMatching(beacon, $0) })
+    }
+    
+    func row(row:Int) -> [Beacon]? {
+        if row <= self.count() {
+            return beacons.map({$0[row]})
+        } else {
+            return nil
+        }
+    }
+    
+    func column(beacon:Beacon) -> [Beacon]? {
+        var temp = beacons.filter({ $0.first == beacon })
+        //beacons.map( { $0.first == beacon ? temp.append($0) } )
+        if temp.count > 0 {
+            return temp.first
+        } else {
+            return nil
+        }
     }
     
     func avgRSSI(beacon b:Beacon) -> Double {
