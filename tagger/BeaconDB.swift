@@ -22,7 +22,7 @@ class beaconDB: NSObject {
         major.append(31725); minor.append(20567)
         major.append(60607); minor.append(51730)
         
-        for (var i = 0; i < 5; i++){
+        for (var i = 0; i < 6; i++){
             beacons.append(Beacon(uuid: NSUUID(UUIDString: uuidString)!, major: major[i], minor: minor[i]))
         }
         

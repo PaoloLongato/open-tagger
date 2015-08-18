@@ -91,6 +91,14 @@ class BeaconMatrix {
         }
     }
     
+    func avgRSSI(row: Int) -> [Double]? {
+        if let bcs = self.row(row) {
+            return bcs.map { self.avgRSSI(beacon: $0) }
+        } else {
+            return nil
+        }
+    }
+    
     // Change the formulas
     func varRSSI(beacon b:Beacon) -> Double {
         let beacs = beacons.filter({ $0.first! == b })

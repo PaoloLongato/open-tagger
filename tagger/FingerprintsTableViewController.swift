@@ -12,6 +12,7 @@ import CoreLocation
 class FingerprintsTableViewController: UITableViewController, UITableViewDelegate, BeaconMonitorDelegate {
 
     var area:Area!
+    var areas:Areas!
     var beacons:BeaconMatrix!
     var labels:[String] = []
     var remoteBeacons = beaconDB()
@@ -81,6 +82,9 @@ class FingerprintsTableViewController: UITableViewController, UITableViewDelegat
     
     @IBAction func dismissView() {
         monitor?.stop()
+        // DEBUG
+        //area.fingerprints.list.first.map { println($0.data) }
+        NSNotificationCenter.defaultCenter().postNotificationName("updateAreas", object: self)
         dismissViewControllerAnimated(true, completion: nil)
     }
     

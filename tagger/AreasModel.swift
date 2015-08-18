@@ -22,4 +22,19 @@ class Areas: NSObject {
     func removeArea(id:Int) {
         list = list.filter {$0.id != id}
     }
+    
+    func data() -> ([[Double]], [Int]){
+        var labels:[Int] = []
+        var data:[[Double]] = []
+        var output = list.reduce( ([[Double]](), [Int]()) )
+        {
+            (acc, new) in
+            var out = (acc.0,acc.1)
+            let newFPData = new.fingerprintsAggregateData()
+            out.0 = out.0 + newFPData
+            out.1 = out.1 + Array(count: newFPData.count, repeatedValue: new.id)
+            return out
+        }
+        return output
+    }
 }

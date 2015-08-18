@@ -22,6 +22,10 @@ class Area: NSObject {
         self.id = id
         super.init()
     }
+    
+    func fingerprintsAggregateData() -> [[Double]] {
+        return fingerprints.list.reduce([]) { $0+$1.data }
+    }
 }
 
 private func makeDefaultPicture() -> UIImage {

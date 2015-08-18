@@ -109,7 +109,8 @@ class AreasTableViewController: UITableViewController {
         } else if segue.identifier == "fingerprints" {
             let index = sender!.tag
             let VC = segue.destinationViewController as! FingerprintsTableViewController
-            VC.area = areas.list[index]            
+            VC.area = areas.list[index]
+            VC.areas = areas
             /*
             VC.name.text = areas.list[tableView.indexPathForSelectedRow()!.row].name
             VC.des.text = areas.list[tableView.indexPathForSelectedRow()!.row].des

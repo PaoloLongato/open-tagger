@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>021446BF-A10F-4FE1-90DD-8CBB7FD9C0BA</string>
+	<key>IDESourceControlProjectName</key>
+	<string>tagger</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>AA36324E345A0B76D3013C1000FAE40245DA02FF</key>
+		<string>https://bitbucket.org/eppilo/tagger.git</string>
+		<key>DE04DE2F7DEBE78586ED25CC854B6B7553F76B75</key>
+		<string>https://github.com/Itseez/opencv.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>tagger.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>AA36324E345A0B76D3013C1000FAE40245DA02FF</key>
+		<string>../..</string>
+		<key>DE04DE2F7DEBE78586ED25CC854B6B7553F76B75</key>
+		<string>../../../opencv</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/eppilo/tagger.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>AA36324E345A0B76D3013C1000FAE40245DA02FF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DE04DE2F7DEBE78586ED25CC854B6B7553F76B75</string>
+			<key>IDESourceControlWCCName</key>
+			<string>opencv</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>AA36324E345A0B76D3013C1000FAE40245DA02FF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>tagger</string>
+		</dict>
+	</array>
+</dict>
+</plist>
