@@ -16,6 +16,6 @@
 @interface testClass: NSObject
 
 - (void)trainSVM:(NSArray *)trainingSet withLabels:(NSArray *)labelsSet;
-- (int)forecastLabel: (NSArray *)observation;
+- (float)forecastLabel: (NSArray *)observation;
 
 @end

@@ -34,7 +34,7 @@ class SecondViewController: UIViewController, AreasSecondaryStorage, BeaconMonit
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        beacons = BeaconMatrix(beacons: remoteBeacons.beacons, limit:30)
+        beacons = BeaconMatrix(beacons: remoteBeacons.beacons, limit:10)
         if let m = BeaconMonitor(delegate: self, UUID: remoteBeacons.beacons.first!.uuid, authorisation: .Always){
             monitor = m
             let e = m.statusErrors()
@@ -79,6 +79,15 @@ class SecondViewController: UIViewController, AreasSecondaryStorage, BeaconMonit
             }
         }
     }
+    
+    func predict2(){
+        if beacons.count() > 0 {
+            if let ob = beacons.accuracy(beacons.count() - 1) {
+                println(ob)
+                predictedAreaLabel.text = "\(SVMModel.forecastLabel(ob))"
+            }
+        }
+    }
 
     @IBAction func onPressTrainButton() {
         train()
@@ -90,7 +99,8 @@ class SecondViewController: UIViewController, AreasSecondaryStorage, BeaconMonit
         var bcs:[Beacon] = []
         beacons.map({ bcs.append(Beacon(beacon: $0)) })
         self.beacons.addBeacons(bcs)
-        predict()
+        //predict()
+        predict2()
     }
     
     func beaconMonitor(monitor: BeaconMonitor, errorScanningBeacons error: BeaconMonitorError){

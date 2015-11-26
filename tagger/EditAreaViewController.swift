@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var des: UITextView!
@@ -59,5 +59,28 @@ class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewD
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    // MARK: Image picker delegate methods and take a photo action
+    
+    @IBAction func takePhoto(sender: UIBarButtonItem) {
+        var picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        picker.sourceType = UIImagePickerControllerSourceType.Camera
+        self.presentViewController(picker, animated:true, completion:nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        if let chosenImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            self.picture.image = chosenImage
+            area?.picture = chosenImage
+            if let a = updateTable {a()}
+        }
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 }

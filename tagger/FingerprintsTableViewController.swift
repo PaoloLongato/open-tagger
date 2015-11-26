@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class FingerprintsTableViewController: UITableViewController, UITableViewDelegate, BeaconMonitorDelegate {
+class FingerprintsTableViewController: UITableViewController, UITableViewDelegate, BeaconMonitorDelegate, UINavigationBarDelegate {
 
     var area:Area!
     var areas:Areas!
@@ -20,6 +20,7 @@ class FingerprintsTableViewController: UITableViewController, UITableViewDelegat
     var selectedCell = -1
     var selectedCellIndexPath:NSIndexPath?
     @IBOutlet weak var naviItem: UINavigationItem!
+    @IBOutlet weak var naviBar: UINavigationBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +30,7 @@ class FingerprintsTableViewController: UITableViewController, UITableViewDelegat
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        beacons = BeaconMatrix(beacons: remoteBeacons.beacons, limit:30)
+        beacons = BeaconMatrix(beacons: remoteBeacons.beacons, limit:10)
         labels.append("\(selectedCell)")
         
         if let m = BeaconMonitor(delegate: self, UUID: remoteBeacons.beacons.first!.uuid, authorisation: .Always){
@@ -46,6 +47,9 @@ class FingerprintsTableViewController: UITableViewController, UITableViewDelegat
                 monitor?.start()
             }
         }
+        
+        // Navi bar
+        self.naviBar.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -159,7 +163,8 @@ class FingerprintsTableViewController: UITableViewController, UITableViewDelegat
         beacons.map({ bcs.append(Beacon(beacon: $0)) })
         self.beacons.addBeacons(bcs)
         if selectedCell > -1 {
-            self.area.fingerprints.list[selectedCell].data.append( self.beacons.beacons.map({Double($0.last!.rssi!)}) )
+            //self.area.fingerprints.list[selectedCell].data.append( self.beacons.beacons.map({Double($0.last!.rssi!)}) )
+            self.area.fingerprints.list[selectedCell].data.append( self.beacons.beacons.map({Double($0.last!.accuracy!)}) )
             if let path = selectedCellIndexPath {
                 let cell = tableView.cellForRowAtIndexPath(path) as! FingerprintsCellView
                 cell.dataPointsNumber.text = "\(area.fingerprints.list[path.row].data.count)"
@@ -212,5 +217,21 @@ class FingerprintsTableViewController: UITableViewController, UITableViewDelegat
         }
         return indexPath
     }
+    
+    // Bar positioning delegate methiods
+    
+    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+        /*
+        var frame: CGRect = self.naviBar.frame
+        //frame.origin = CGPointMake(0, UIApplication.sharedApplication().statusBarFrame.size.height)
+        frame.origin = CGPointMake(0, 100)
+        self.naviBar.frame = frame
+        self.tableView.setNeedsDisplay()
+        */
+        return UIBarPosition.TopAttached
+    }
 
+    override func prefersStatusBarHidden() -> Bool {
+        return true;
+    }
 }

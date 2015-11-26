@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "AA36324E345A0B76D3013C1000FAE40245DA02FF",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "DE04DE2F7DEBE78586ED25CC854B6B7553F76B75" : 0,
+    "AA36324E345A0B76D3013C1000FAE40245DA02FF" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "021446BF-A10F-4FE1-90DD-8CBB7FD9C0BA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "DE04DE2F7DEBE78586ED25CC854B6B7553F76B75" : "opencv",
+    "AA36324E345A0B76D3013C1000FAE40245DA02FF" : "tagger"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "tagger",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "tagger.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/eppilo\/tagger.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "AA36324E345A0B76D3013C1000FAE40245DA02FF"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Itseez\/opencv.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DE04DE2F7DEBE78586ED25CC854B6B7553F76B75"
+    }
+  ]
+}

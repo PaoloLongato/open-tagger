@@ -66,6 +66,23 @@ class BeaconMatrix {
         }
     }
     
+    // Very dirty way to get rid of accuracy missing values
+    func accuracy(row:Int) -> [Double]? {
+        if let bcs = self.row(row) {
+            var acc = bcs.map({$0.accuracy})
+            //var output = acc.map( { if $0 == nil { return 20.0 } else { return $0 } } )
+            var output = acc.map( { (accuracy) -> Double in
+                if let a = accuracy {
+                    return a
+                } else {
+                    return 20.0
+                }})
+            return output
+        } else {
+            return nil
+        }
+    }
+    
     func column(beacon:Beacon) -> [Beacon]? {
         var temp = beacons.filter({ $0.first == beacon })
         //beacons.map( { $0.first == beacon ? temp.append($0) } )
@@ -99,24 +116,8 @@ class BeaconMatrix {
         }
     }
     
-    // Change the formulas
+    // Change the formulas!!!
     func varRSSI(beacon b:Beacon) -> Double {
-        let beacs = beacons.filter({ $0.first! == b })
-        if let beac = beacs.first {
-            if beac.count > maLimit {
-                let beaRev = beac.reverse()
-                let beaSlice = beaRev[0...maLimit-1]
-                return Double(beaSlice.reduce(0) {$0 + $1.rssi!}) / Double(maLimit)
-            } else {
-                return Double(beac.reduce(0) {$0 + $1.rssi!}) / Double(count())
-            }
-        } else {
-            return 0.0
-        }
-    }
-    
-    // Change the formulas
-    func accuracy(beacon b:Beacon) -> Double {
         let beacs = beacons.filter({ $0.first! == b })
         if let beac = beacs.first {
             if beac.count > maLimit {

@@ -10,17 +10,42 @@ import Foundation
 import UIKit
 import CoreGraphics
 
-class Area: NSObject {
+class Area: NSObject, NSCoding {
     var name:String = "Please name this area"
     var des:String = "Please provide a description for this area"
     var picture:UIImage = makeDefaultPicture()
-    let id:Int
+    var id:Int
     var fingerprints = Areas()
     var data:[[Double]] = []
     
     init(id:Int) {
         self.id = id
         super.init()
+    }
+    
+    required convenience init(coder decoder: NSCoder) {
+        self.init(id: 0)
+        ///*
+        self.name = decoder.decodeObjectForKey("name") as! String
+        self.des = decoder.decodeObjectForKey("des") as! String
+        self.picture = decoder.decodeObjectForKey("picture") as! UIImage
+        self.id = decoder.decodeIntegerForKey("id")
+        self.fingerprints = decoder.decodeObjectForKey("fingerprints") as! Areas
+        self.data = decoder.decodeObjectForKey("data") as! [[Double]]
+        //*/
+        println("Decode one area")
+    }
+    
+    func encodeWithCoder(coder: NSCoder) {
+        ///*
+        coder.encodeObject(name, forKey: "name")
+        coder.encodeObject(des, forKey: "des")
+        coder.encodeObject(picture, forKey: "picture")
+        coder.encodeInteger(id, forKey: "id")
+        coder.encodeObject(fingerprints, forKey: "fingerprints")
+        coder.encodeObject(data, forKey: "data")
+        //*/
+        println("Encode one area")
     }
     
     func fingerprintsAggregateData() -> [[Double]] {

@@ -31,11 +31,12 @@ using namespace cv;
     NSInteger obsCount = labelsSet.count;
     NSArray *firstObject = (NSArray *)trainingSet.firstObject;
     NSInteger featuresCount = firstObject.count;
-    int labels[featuresCount];
-    float trainingData[obsCount][featuresCount];
+    
+    int labels[obsCount];  // Needs deallocating
+    float trainingData[obsCount][featuresCount];  // Needs deallocating
 
     for (int i = 0; i < obsCount; i++) {
-        labels[i] = [[labelsSet objectAtIndex:i] floatValue];
+        labels[i] = [[labelsSet objectAtIndex:i] intValue];
     }
     for (int i = 0; i < obsCount; i++) {
         for (int j = 0; j < featuresCount; j++) {
@@ -72,7 +73,12 @@ using namespace cv;
     */
 }
 
-- (int)forecastLabel:(NSArray *)observation
+- (void)dealloc
+{
+    delete [] self.model;
+}
+
+- (float)forecastLabel:(NSArray *)observation
 {
     if (self.model != nil) {
         NSInteger featuresCount = [observation count];
@@ -82,9 +88,9 @@ using namespace cv;
         }
         Mat data(1, featuresCount, CV_32FC1, dataArray);
         float output = self.model->predict(data);
-        return (int)output;
+        return output;
     } else {
-        return 666;
+        return 666.0;
     }
 }
 
