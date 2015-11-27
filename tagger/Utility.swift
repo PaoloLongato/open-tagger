@@ -47,10 +47,10 @@ struct utility {
             if let std = stdev(obs),
                 let avg = average(obs),
                 let last = observations.last {
-                    println(last < avg + tolerance * std)
-                    println(last > avg - tolerance * std)
-                    println(last < avg + tolerance * std && last > avg - tolerance * std)
-                    println(last)
+                    print(last < avg + tolerance * std)
+                    print(last > avg - tolerance * std)
+                    print(last < avg + tolerance * std && last > avg - tolerance * std)
+                    print(last)
                     if last < avg + tolerance * std && last > avg - tolerance * std {
                         return observations.last
                     } else {
@@ -71,8 +71,8 @@ struct utility {
             obsLag.removeLast()
             var obs = observations
             obs.removeAtIndex(0)
-            var couples = Array(zip(obs, obsLag))
-            var output = couples.reduce([]) {
+            let couples = Array(zip(obs, obsLag))
+            let output = couples.reduce([]) {
                 if $1.0 == 0 {
                     return Array($0) + [$1.1]
                 } else {

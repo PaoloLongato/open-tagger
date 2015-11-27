@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class FingerprintsTableViewController: UITableViewController, UITableViewDelegate, BeaconMonitorDelegate, UINavigationBarDelegate {
+class FingerprintsTableViewController: UITableViewController, BeaconMonitorDelegate, UINavigationBarDelegate {
 
     var area:Area!
     var areas:Areas!
@@ -41,7 +41,7 @@ class FingerprintsTableViewController: UITableViewController, UITableViewDelegat
                     if v == .AuthorizationNotAsked {
                         m.requireAuthorization()
                     }
-                    println(v.description)
+                    print(v.description)
                 }
             } else {
                 monitor?.start()
@@ -173,37 +173,37 @@ class FingerprintsTableViewController: UITableViewController, UITableViewDelegat
     }
     
     func beaconMonitor(monitor: BeaconMonitor, errorScanningBeacons error: BeaconMonitorError){
-        println(error)
+        print(error)
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didFindStatusErrors errors: [BeaconMonitorError]) {
-        errors.map({println($0)})
+        errors.map({print($0)})
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didFindBLEErrors errors: [BeaconMonitorError]) {
-        errors.map({println($0)})
+        errors.map({print($0)})
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didReceiveAuthorisation authorisation: BeaconMonitorAuthorisationType) {
-        println("Authorisation")
+        print("Authorisation")
         monitor.start()
     }
     
     // TABLE VIEW DELEGATE METHODS
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        println("DESELECTED")
+        print("DESELECTED")
         selectedCell = -1
         selectedCellIndexPath = nil
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("DID SELECT")
+        print("DID SELECT")
         selectedCell = indexPath.row
         selectedCellIndexPath = indexPath
     }
     
     override func tableView(tableView: UITableView, willDeselectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        println("WILL DESELECT")
+        print("WILL DESELECT")
         return indexPath
     }
     

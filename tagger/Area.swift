@@ -23,7 +23,7 @@ class Area: NSObject, NSCoding {
         super.init()
     }
     
-    required convenience init(coder decoder: NSCoder) {
+    required convenience init?(coder decoder: NSCoder) {
         self.init(id: 0)
         ///*
         self.name = decoder.decodeObjectForKey("name") as! String
@@ -33,7 +33,7 @@ class Area: NSObject, NSCoding {
         self.fingerprints = decoder.decodeObjectForKey("fingerprints") as! Areas
         self.data = decoder.decodeObjectForKey("data") as! [[Double]]
         //*/
-        println("Decode one area")
+        print("Decode one area")
     }
     
     func encodeWithCoder(coder: NSCoder) {
@@ -45,7 +45,7 @@ class Area: NSObject, NSCoding {
         coder.encodeObject(fingerprints, forKey: "fingerprints")
         coder.encodeObject(data, forKey: "data")
         //*/
-        println("Encode one area")
+        print("Encode one area")
     }
     
     func fingerprintsAggregateData() -> [[Double]] {

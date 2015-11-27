@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Paolo Longato. All rights reserved.
 //
 
-enum BeaconMonitorError: String, Printable {
+enum BeaconMonitorError: String, CustomStringConvertible {
     case BluetoothOff = "BluetoothOff"
     case BluetoothUpdating = "Bluetooth state is currently updating and therefore temporairliy unavailable"
     case BluetoothUnauthorized = "The app is not authorized to use Bluetooth low energy"
@@ -51,7 +51,7 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
             super.init()
             bluetoothManager = CBCentralManager(delegate: self, queue: dispatch_get_main_queue(), options: options)
         } else {
-            println("UUID string supplied is not valid!")
+            print("UUID string supplied is not valid!")
             super.init()
             bluetoothManager = CBCentralManager(delegate: self, queue: dispatch_get_main_queue(), options: options)
             return nil
@@ -98,9 +98,9 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
             delegate.beaconMonitor(self, didReceiveAuthorisation: .WhenInUse)
         case .AuthorizedAlways:
             delegate.beaconMonitor(self, didReceiveAuthorisation: .Always)
-        default: println(status)
+        default: print(status)
         }
-        println("STATUS CHANGE")
+        print("STATUS CHANGE")
     }
     
     func requireAuthorization(){
@@ -176,33 +176,33 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
     private func startMonitoring() {
         locationManager.startMonitoringForRegion(beaconRegion)
         locationManager.startRangingBeaconsInRegion(beaconRegion)
-        println("Region monitor starting \(beaconRegion)")
+        print("Region monitor starting \(beaconRegion)")
     }
     
     private func locationManager(manager: CLLocationManager!, didStartMonitoringForRegion region: CLRegion!) {
         //locationManager.startRangingBeaconsInRegion(beaconRegion)
-        println("Ranging beacons starting")
+        print("Ranging beacons starting")
     }
     
     // When does this happen?
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        println("didFailWithError " + error.description)
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("didFailWithError " + error.description)
     }
     
     // When does this happen?
-    func locationManager(manager: CLLocationManager!, monitoringDidFailForRegion region: CLRegion!, withError error: NSError!) {
-        println("monitoringDidFailForRegion " + error.description)
+    func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
+        print("monitoringDidFailForRegion " + error.description)
     }
     
-    func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: CLBeaconRegion!) {
-        let bcs = beacons as! [CLBeacon]
+    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
+        let bcs = beacons 
         if bcs.count > 0 {
             self.delegate.beaconMonitor(self, didFindCLBeacons: bcs)
         }
     }
     
     // BLUETOOTH CHANGE OF STATE
-    internal func centralManagerDidUpdateState(central: CBCentralManager!) {
+    internal func centralManagerDidUpdateState(central: CBCentralManager) {
         //if central.state != .PoweredOn {
        //     delegate.beaconMonitor(self, didFindStatusErrors: statusErrors())
        // }

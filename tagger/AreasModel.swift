@@ -14,12 +14,12 @@ class Areas: NSObject, NSCoding {
     var foo : NSString = "test"
     
     override init() {
-        println("INIT")
+        print("INIT")
         super.init()
     }
     
-    required convenience init(coder decoder: NSCoder) {
-        println("INIT WITH CODER")
+    required convenience init?(coder decoder: NSCoder) {
+        print("INIT WITH CODER")
         self.init()
         if let l = decoder.decodeObjectForKey("list") as? [Area] {
             self.list = l
@@ -33,7 +33,7 @@ class Areas: NSObject, NSCoding {
     }
     
     func encodeWithCoder(coder: NSCoder) {
-        println("ENCODE LIST")
+        print("ENCODE LIST")
         coder.encodeObject(self.list, forKey: "list")
         //coder.encodeObject(foo, forKey: "foo")
        // for index in 0..<list.count {
@@ -43,26 +43,26 @@ class Areas: NSObject, NSCoding {
     
     func save() -> Bool {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidEnterBackgroundNotification, object: nil)
-        var docDirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        var docDir = docDirs.first! as! String
-        var path = docDir.stringByAppendingPathComponent("archive")
-        println(path)
+        let docDirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docDir = docDirs.first! 
+        let path = (docDir as NSString).stringByAppendingPathComponent("archive")
+        print(path)
         //let foo =  NSKeyedArchiver.archiveRootObject(self.foo, toFile: path)
         //println(foo)
         //return foo
         let success = NSKeyedArchiver.archiveRootObject(list, toFile: path)
-        println(success)
+        print(success)
         return success
     }
     
     func load() {
-        println("LOAD")
-        var docDirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        var docDir = docDirs.first! as! String
-        var path = docDir.stringByAppendingPathComponent("archive")
+        print("LOAD")
+        let docDirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docDir = docDirs.first! 
+        let path = (docDir as NSString).stringByAppendingPathComponent("archive")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "save", name: UIApplicationDidEnterBackgroundNotification, object: nil)
         if let l = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as? [Area] {
-            println("ARCHIVE FETCHED")
+            print("ARCHIVE FETCHED")
             list = l
         }
     }
@@ -82,7 +82,7 @@ class Areas: NSObject, NSCoding {
     func data() -> ([[Double]], [Int]){
         var labels:[Int] = []
         var data:[[Double]] = []
-        var output = list.reduce( ([[Double]](), [Int]()) )
+        let output = list.reduce( ([[Double]](), [Int]()) )
         {
             (acc, new) in
             var out = (acc.0,acc.1)

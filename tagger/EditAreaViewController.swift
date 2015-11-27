@@ -63,14 +63,14 @@ class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewD
     // MARK: Image picker delegate methods and take a photo action
     
     @IBAction func takePhoto(sender: UIBarButtonItem) {
-        var picker = UIImagePickerController()
+        let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = true
         picker.sourceType = UIImagePickerControllerSourceType.Camera
         self.presentViewController(picker, animated:true, completion:nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let chosenImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             self.picture.image = chosenImage
             area?.picture = chosenImage

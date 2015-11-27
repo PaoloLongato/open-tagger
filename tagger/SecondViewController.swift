@@ -21,7 +21,7 @@ class SecondViewController: UIViewController, AreasSecondaryStorage, BeaconMonit
     @IBOutlet weak var predictedAreaLabel: UILabel!
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAreas:", name: "updateAreas", object: nil)
     }
@@ -43,7 +43,7 @@ class SecondViewController: UIViewController, AreasSecondaryStorage, BeaconMonit
                     if v == .AuthorizationNotAsked {
                         m.requireAuthorization()
                     }
-                    println(v.description)
+                    print(v.description)
                 }
             } else {
                 monitor?.start()
@@ -66,8 +66,8 @@ class SecondViewController: UIViewController, AreasSecondaryStorage, BeaconMonit
     
     func train(){
         let (trainingSet, labels) = areas.data()
-        trainingSet.map( { println($0) } )
-        println(labels)
+        trainingSet.map( { print($0) } )
+        print(labels)
         SVMModel.trainSVM(trainingSet, withLabels: labels)
     }
     
@@ -83,7 +83,7 @@ class SecondViewController: UIViewController, AreasSecondaryStorage, BeaconMonit
     func predict2(){
         if beacons.count() > 0 {
             if let ob = beacons.accuracy(beacons.count() - 1) {
-                println(ob)
+                print(ob)
                 predictedAreaLabel.text = "\(SVMModel.forecastLabel(ob))"
             }
         }
@@ -104,19 +104,19 @@ class SecondViewController: UIViewController, AreasSecondaryStorage, BeaconMonit
     }
     
     func beaconMonitor(monitor: BeaconMonitor, errorScanningBeacons error: BeaconMonitorError){
-        println(error)
+        print(error)
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didFindStatusErrors errors: [BeaconMonitorError]) {
-        errors.map({println($0)})
+        errors.map({print($0)})
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didFindBLEErrors errors: [BeaconMonitorError]) {
-        errors.map({println($0)})
+        errors.map({print($0)})
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didReceiveAuthorisation authorisation: BeaconMonitorAuthorisationType) {
-        println("Authorisation")
+        print("Authorisation")
         monitor.start()
     }
 

@@ -32,7 +32,7 @@ class BeaconMatrix {
         func addNullBeaconIfObservationIsMissing(B:[Beacon], maxCount: Int) -> [Beacon] {
             var output = B
             if B.count < maxCount {
-                var nullBeacon = Beacon(uuid: NSUUID(UUIDString: B.first!.uuid)!, major: B.first!.major, minor: B.first!.minor)
+                let nullBeacon = Beacon(uuid: NSUUID(UUIDString: B.first!.uuid)!, major: B.first!.major, minor: B.first!.minor)
                 nullBeacon.rssi = 0
                 nullBeacon.accuracy = -1
                 output.append(nullBeacon)
@@ -40,7 +40,7 @@ class BeaconMatrix {
             return output
         }
         let mc = maxCount()
-        self.beacons = self.beacons.map({ addNullBeaconIfObservationIsMissing($0, mc) })
+        self.beacons = self.beacons.map({ addNullBeaconIfObservationIsMissing($0, maxCount: mc) })
         // DELETE ME!
         //self.beacons.map({println($0.last!.major)})
     }
@@ -55,7 +55,7 @@ class BeaconMatrix {
             }
             return output
         }
-        self.beacons = self.beacons.map({ addBeaconIfMatching(beacon, $0) })
+        self.beacons = self.beacons.map({ addBeaconIfMatching(beacon, B: $0) })
     }
     
     func row(row:Int) -> [Beacon]? {
@@ -69,9 +69,9 @@ class BeaconMatrix {
     // Very dirty way to get rid of accuracy missing values
     func accuracy(row:Int) -> [Double]? {
         if let bcs = self.row(row) {
-            var acc = bcs.map({$0.accuracy})
+            let acc = bcs.map({$0.accuracy})
             //var output = acc.map( { if $0 == nil { return 20.0 } else { return $0 } } )
-            var output = acc.map( { (accuracy) -> Double in
+            let output = acc.map( { (accuracy) -> Double in
                 if let a = accuracy {
                     return a
                 } else {
@@ -84,7 +84,7 @@ class BeaconMatrix {
     }
     
     func column(beacon:Beacon) -> [Beacon]? {
-        var temp = beacons.filter({ $0.first == beacon })
+        let temp = beacons.filter({ $0.first == beacon })
         //beacons.map( { $0.first == beacon ? temp.append($0) } )
         if temp.count > 0 {
             return temp.first
@@ -97,7 +97,7 @@ class BeaconMatrix {
         let beacs = beacons.filter({ $0.first! == b })
         if let beac = beacs.first {
             if beac.count > maLimit {
-                let beaRev = beac.reverse()
+                let beaRev = Array(beac.reverse())
                 let beaSlice = beaRev[0...maLimit-1]
                 return Double(beaSlice.reduce(0) {$0 + $1.rssi!}) / Double(maLimit)
             } else {
@@ -121,7 +121,7 @@ class BeaconMatrix {
         let beacs = beacons.filter({ $0.first! == b })
         if let beac = beacs.first {
             if beac.count > maLimit {
-                let beaRev = beac.reverse()
+                let beaRev = Array(beac.reverse())
                 let beaSlice = beaRev[0...maLimit-1]
                 return Double(beaSlice.reduce(0) {$0 + $1.rssi!}) / Double(maLimit)
             } else {
