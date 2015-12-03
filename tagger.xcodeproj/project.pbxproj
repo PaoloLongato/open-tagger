@@ -17,6 +17,7 @@
 		526CEBC41B67A3FA000764FB /* BeaconMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526CEBC31B67A3FA000764FB /* BeaconMonitor.swift */; };
 		526CEBC61B67BBA9000764FB /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526CEBC51B67BBA9000764FB /* Beacon.swift */; };
 		526CEBCA1B67CC6B000764FB /* BeaconMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526CEBC91B67CC6B000764FB /* BeaconMatrix.swift */; };
+		5272329A1C08B8D3001039CC /* DataStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527232991C08B8D3001039CC /* DataStructures.swift */; };
 		52A180DB1B7C7D110024AB6B /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A180DA1B7C7D110024AB6B /* Protocols.swift */; };
 		52E25BDE1B638EA200A281D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25BDD1B638EA200A281D2 /* AppDelegate.swift */; };
 		52E25BE01B638EA200A281D2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E25BDF1B638EA200A281D2 /* FirstViewController.swift */; };
@@ -54,6 +55,7 @@
 		526CEBC31B67A3FA000764FB /* BeaconMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconMonitor.swift; sourceTree = "<group>"; };
 		526CEBC51B67BBA9000764FB /* Beacon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 		526CEBC91B67CC6B000764FB /* BeaconMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BeaconMatrix.swift; path = ../BeaconMatrix.swift; sourceTree = "<group>"; };
+		527232991C08B8D3001039CC /* DataStructures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStructures.swift; sourceTree = "<group>"; };
 		52A180DA1B7C7D110024AB6B /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		52E25BD81B638EA200A281D2 /* tagger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tagger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52E25BDC1B638EA200A281D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				5263C5C91B68E84800C48BF0 /* BeaconDB.swift */,
 				526CEBC51B67BBA9000764FB /* Beacon.swift */,
 				526CEBC91B67CC6B000764FB /* BeaconMatrix.swift */,
+				527232991C08B8D3001039CC /* DataStructures.swift */,
 				52E25BE61B638EA200A281D2 /* Images.xcassets */,
 				52E25BE81B638EA200A281D2 /* LaunchScreen.xib */,
 				52E25BE31B638EA200A281D2 /* Main.storyboard */,
@@ -279,6 +282,7 @@
 				52E25C041B63B5D800A281D2 /* AreasCellView.swift in Sources */,
 				5263C5CA1B68E84800C48BF0 /* BeaconDB.swift in Sources */,
 				526CEBC41B67A3FA000764FB /* BeaconMonitor.swift in Sources */,
+				5272329A1C08B8D3001039CC /* DataStructures.swift in Sources */,
 				52E25C061B63B6C600A281D2 /* AreasModel.swift in Sources */,
 				52E25BE01B638EA200A281D2 /* FirstViewController.swift in Sources */,
 				526CEBC61B67BBA9000764FB /* Beacon.swift in Sources */,

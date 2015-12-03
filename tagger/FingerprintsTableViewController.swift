@@ -13,7 +13,8 @@ class FingerprintsTableViewController: UITableViewController, BeaconMonitorDeleg
 
     var area:Area!
     var areas:Areas!
-    var beacons:BeaconMatrix!
+    //var beacons:BeaconMatrix!
+    var beacons: Reel<Beacon>
     var labels:[String] = []
     var remoteBeacons = beaconDB()
     var monitor:BeaconMonitor?
@@ -30,7 +31,9 @@ class FingerprintsTableViewController: UITableViewController, BeaconMonitorDeleg
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        beacons = BeaconMatrix(beacons: remoteBeacons.beacons, limit:10)
+        
+        //beacons = BeaconMatrix(beacons: remoteBeacons.beacons, limit:10)
+        beacons = Reel(elements: remoteBeacons.beacons, limit: 5, nullValue: nullBeacon())!
         labels.append("\(selectedCell)")
         
         if let m = BeaconMonitor(delegate: self, UUID: remoteBeacons.beacons.first!.uuid, authorisation: .Always){
@@ -161,9 +164,9 @@ class FingerprintsTableViewController: UITableViewController, BeaconMonitorDeleg
         //beacons.map({println($0.major)})
         var bcs:[Beacon] = []
         beacons.map({ bcs.append(Beacon(beacon: $0)) })
-        self.beacons.addBeacons(bcs)
+        //self.beacons.addBeacons(bcs)
+        self.beacons.pushMatchingElementsIn(bcs)
         if selectedCell > -1 {
-            //self.area.fingerprints.list[selectedCell].data.append( self.beacons.beacons.map({Double($0.last!.rssi!)}) )
             self.area.fingerprints.list[selectedCell].data.append( self.beacons.beacons.map({Double($0.last!.accuracy!)}) )
             if let path = selectedCellIndexPath {
                 let cell = tableView.cellForRowAtIndexPath(path) as! FingerprintsCellView
