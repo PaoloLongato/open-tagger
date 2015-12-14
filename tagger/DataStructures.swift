@@ -76,6 +76,10 @@ struct Reel<T: WithEquivalence> {
         }
     }
     
+    func getItemsInAllQueues() -> [[T]] {
+        return self.items.reduce([]) { $0 + [$1.items] }
+    }
+    
 }
 
 // MARK: Homegeneus Queue
@@ -132,10 +136,129 @@ struct HomogeneousQueue<T: WithEquivalence> {
     
 }
 
+// MARK: Weak container
+
+class Weak<T: AnyObject> {
+    weak var value:T?
+    init(value: T) {
+        self.value = value
+    }
+}
+
+// MARK: Histogram
+
+struct Histogram {
+    
+    private let elements: [Double]
+    private var cumulative: [Double]?
+    
+    init?(data:[Double]) {
+        guard data.count > 0 else { return nil }
+        let tempElements = Histogram.normalize(Histogram.shift(data))
+        guard tempElements.reduce(false, combine: { $0 || $1 > 0.0 }) else { return nil }
+        self.elements = tempElements
+    }
+    
+    // MARK: Helper functitons
+    
+    private static func normalize(histogram: [Double]) -> [Double] {
+        let sum = histogram.reduce(0) { $0 + $1 }
+        return histogram.map({ $0 / sum })
+    }
+    
+    private static func normalizeWithIndices(histogram: [(label:Int, value:Double)]) -> [(label:Int, value:Double)] {
+        let sum = histogram.reduce(0) { $0 + $1.value }
+        return histogram.map({ ($0.label, $0.value / sum) })
+    }
+    
+    private static func shift(histogram: [Double]) -> [Double] {
+        return histogram.map({ $0 + 95.0 })
+    }
+    
+    private func meanWithIndices(histogram: [(label:Int, value:Double)]) -> Double {
+        return histogram.reduce(0.0) { $0 + $1.value * Double($1.label) }
+    }
+    
+    // MARK: Public functions
+    
+    func max() -> Double {
+        return self.elements.reduce(self.elements.first!) { if $1 > $0 { return $1 } else { return $0 } }
+    }
+    
+    func argMax() -> Int {
+        return self.elements.indexOf(self.max())!
+    }
+    
+    func argMin() -> Int {
+        return Histogram(data: self.elements.map { -$0 })!.argMax()
+    }
+    
+    func mean() -> Double {
+        return meanWithIndices(Array(self.elements.enumerate()))
+    }
+    
+    func variance() -> Double {
+        let m = self.mean()
+        return self.elements.enumerate().reduce(0.0) { $0 + (Double($1.index) - m) * (Double($1.index) - m) * $1.element }
+    }
+    
+    func stDev() -> Double {
+        return sqrt(self.variance())
+    }
+    
+    func cv() -> Double {
+        return self.stDev() / self.mean()
+    }
+    
+    func inverseCv() -> Double {
+        return self.mean() / self.stDev()
+    }
+    
+    func distribution() -> [Double] {
+        return self.elements
+    }
+    
+    mutating func cumulativeDistribution() -> [Double] {
+        if let _ = self.cumulative {
+            return self.cumulative!
+        } else {
+            var cumulative: [Double] = []
+            var sum = 0.0
+            for value in self.elements {
+                sum += value
+                cumulative.append(sum)
+            }
+            self.cumulative = cumulative
+            return cumulative
+        }
+    }
+    
+    mutating func percentile(percentile: Double) -> Double {
+        let high = self.cumulativeDistribution().enumerate().reduce((0, self.cumulativeDistribution().first!)) { if $1.element < percentile { return $1 } else { return $0 } }
+        let low = self.cumulativeDistribution().enumerate().reverse().reduce((0, self.cumulativeDistribution().first!)) { if $1.element > percentile { return $1 } else { return $0 } }
+        let p1 = self.elements[high.0]
+        let p2 = self.elements[low.0]
+        return (Double(high.0) * p1 + Double(low.0) * p2) / (p1 + p2)
+    }
+    
+    mutating func percentiles() -> [(percentile: Double, value: Double)] {
+        let labels = [0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95]
+        return Array(zip(labels, labels.map({ self.percentile($0) })))
+    }
+    
+}
+
 // MARK: PROTOCOLS
+
 protocol WithEquivalence {
     func <=>(lhs: Self, rhs: Self) -> Bool
 }
 
+protocol AreasSecondaryStorage {
+    var areas:Areas { get }
+    func updateAreas(notification:NSNotification)
+}
+
 // MARK: OPERATORS
+
 infix operator <=> { associativity none precedence 130 }

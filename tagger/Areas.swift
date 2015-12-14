@@ -15,7 +15,7 @@ class Area: NSObject, NSCoding {
     var des:String = "Please provide a description for this area"
     var picture:UIImage = makeDefaultPicture()
     var id:Int
-    var data:[[Double]] = []
+    var fingerprints:[[Double]] = []
     
     init(id:Int) {
         self.id = id
@@ -29,18 +29,9 @@ class Area: NSObject, NSCoding {
         self.des = decoder.decodeObjectForKey("des") as! String
         self.picture = decoder.decodeObjectForKey("picture") as! UIImage
         self.id = decoder.decodeIntegerForKey("id")
-        self.data = decoder.decodeObjectForKey("data") as! [[Double]]
+        self.fingerprints = decoder.decodeObjectForKey("fingerprints") as! [[Double]]
         //*/
         print("Decode one area")
-    }
-    
-    func makeCopy() -> Area {
-        let copy = Area(id: self.id)
-        copy.name = self.name
-        copy.des = self.des
-        copy.picture = self.picture
-        copy.data = self.data
-        return copy
     }
     
     func encodeWithCoder(coder: NSCoder) {
@@ -49,14 +40,11 @@ class Area: NSObject, NSCoding {
         coder.encodeObject(des, forKey: "des")
         coder.encodeObject(picture, forKey: "picture")
         coder.encodeInteger(id, forKey: "id")
-        coder.encodeObject(data, forKey: "data")
+        coder.encodeObject(fingerprints, forKey: "fingerprints")
         //*/
         print("Encode one area")
     }
     
-    //func fingerprintsAggregateData() -> [[Double]] {
-    //    return fingerprints.list.reduce([]) { $0+$1.data }
-    //}
 }
 
 private func makeDefaultPicture() -> UIImage {

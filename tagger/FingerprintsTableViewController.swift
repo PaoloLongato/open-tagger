@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 
+/*
 class FingerprintsTableViewController: UITableViewController, BeaconMonitorDelegate, UINavigationBarDelegate {
 
     var area:Area!
@@ -238,3 +239,4 @@ class FingerprintsTableViewController: UITableViewController, BeaconMonitorDeleg
         return true;
     }
 }
+*/

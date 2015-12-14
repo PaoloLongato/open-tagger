@@ -11,34 +11,16 @@ import UIKit
 
 class Areas: NSObject, NSCoding {
     var list:[Area] = []
-    var foo : NSString = "test"
-    
-    override init() {
-        print("INIT")
-        super.init()
-    }
     
     required convenience init?(coder decoder: NSCoder) {
-        print("INIT WITH CODER")
         self.init()
         if let l = decoder.decodeObjectForKey("list") as? [Area] {
             self.list = l
-            //for index in 0..<list.count {
-            //    if let obj = decoder.decodeObjectForKey(String(index)) as? Area {
-            //        list[index] = obj
-            //    }
-            //}
         }
-        //self.foo = decoder.decodeObjectForKey("foo") as! NSString
     }
     
     func encodeWithCoder(coder: NSCoder) {
-        print("ENCODE LIST")
         coder.encodeObject(self.list, forKey: "list")
-        //coder.encodeObject(foo, forKey: "foo")
-       // for index in 0..<list.count {
-       //     coder.encodeObject(list[index], forKey: String(index))
-       // }
     }
     
     func save() -> Bool {
@@ -46,23 +28,16 @@ class Areas: NSObject, NSCoding {
         let docDirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docDir = docDirs.first! 
         let path = (docDir as NSString).stringByAppendingPathComponent("archive")
-        print(path)
-        //let foo =  NSKeyedArchiver.archiveRootObject(self.foo, toFile: path)
-        //println(foo)
-        //return foo
         let success = NSKeyedArchiver.archiveRootObject(list, toFile: path)
-        print(success)
         return success
     }
     
     func load() {
-        print("LOAD")
         let docDirs = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docDir = docDirs.first! 
         let path = (docDir as NSString).stringByAppendingPathComponent("archive")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "save", name: UIApplicationDidEnterBackgroundNotification, object: nil)
         if let l = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as? [Area] {
-            print("ARCHIVE FETCHED")
             list = l
         }
     }
@@ -75,20 +50,40 @@ class Areas: NSObject, NSCoding {
         list.append(Area(id: id))
     }
     
+    func makeCopy() -> Areas {
+        let copy = Areas()
+        copy.list = self.list.map({ $0.makeCopy() })
+        return copy
+    }
+    
+    func safeSwapPositions(firstAreaPosition: Int, secondAreaPosition: Int) {
+        if firstAreaPosition > 0 &&
+            secondAreaPosition > 0 &&
+            firstAreaPosition < self.list.count &&
+            secondAreaPosition < self.list.count {
+                let temp = self.list[secondAreaPosition]
+                self.list[secondAreaPosition] = self.list[firstAreaPosition]
+                self.list[firstAreaPosition] = temp
+        }
+    }
+    
     func removeArea(id:Int) {
         list = list.filter {$0.id != id}
     }
     
+    func area(id: Int) -> Area? {
+        return list.filter {$0.id == id}.first
+    }
+    
     func data() -> ([[Double]], [Int]){
-        var labels:[Int] = []
-        var data:[[Double]] = []
+        // Output couple:
+        // In first position = fingerprint, in second position = label = area id
         let output = list.reduce( ([[Double]](), [Int]()) )
         {
             (acc, new) in
             var out = (acc.0,acc.1)
-            let newFPData = new.fingerprintsAggregateData()
-            out.0 = out.0 + newFPData
-            out.1 = out.1 + Array(count: newFPData.count, repeatedValue: new.id)
+            out.0 = out.0 + new.data
+            out.1 = out.1 + Array(count: new.data.count, repeatedValue: new.id)
             return out
         }
         return output

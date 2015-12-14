@@ -6,9 +6,14 @@
 //  Copyright (c) 2015 Paolo Longato. All rights reserved.
 //
 
+
+
 import Foundation
 
+/*
 protocol AreasSecondaryStorage {
-    var areas:Areas { get }
+  var areas:Areas { get }
     func updateAreas(notification:NSNotification)
 }
+*/
+

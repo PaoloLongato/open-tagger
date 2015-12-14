@@ -41,7 +41,7 @@ class Beacon: NSObject, WithEquivalence {
     
 }
 
-// MARK: nullBeacon
+// MARK: nullBeacon Class
 
 class nullBeacon: Beacon {
     init() {

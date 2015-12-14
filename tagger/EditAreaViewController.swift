@@ -19,7 +19,7 @@ class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        if let a = area {
+        if let _ = area {
             name.text = area!.name
             des.text = area!.des
             picture.image = area!.picture
@@ -37,7 +37,7 @@ class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        area!.name = name.text
+        area!.name = name.text!
         if let a = updateTable {a()}
     }
     
