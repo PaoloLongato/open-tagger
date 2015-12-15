@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-// MARK: Beacon Class
+// MARK: - Beacon Class
 
 class Beacon: NSObject, WithEquivalence {
     let uuid:String
@@ -41,7 +41,7 @@ class Beacon: NSObject, WithEquivalence {
     
 }
 
-// MARK: nullBeacon Class
+// MARK: - nullBeacon Class
 
 class nullBeacon: Beacon {
     init() {
@@ -49,7 +49,7 @@ class nullBeacon: Beacon {
     }
 }
 
-// MARK: Beacon Equivalence Operators
+// MARK: - Beacon Equivalence Operators
 
 func <=>(lhs: Beacon, rhs: Beacon) -> Bool{
     return lhs.uuid == rhs.uuid && lhs.minor == rhs.minor && lhs.major == rhs.major
@@ -63,7 +63,7 @@ func <=>(lhs: CLBeacon, rhs: Beacon) -> Bool{
     return lhs.proximityUUID == rhs.uuid && lhs.minor == rhs.minor && lhs.major == rhs.major
 }
 
-// MARK: CLBeacon extension
+// MARK: - Convenience CLBeacon extension
 
 extension CLBeacon {
     var isNull: Bool {

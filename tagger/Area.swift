@@ -24,13 +24,11 @@ class Area: NSObject, NSCoding {
     
     required convenience init?(coder decoder: NSCoder) {
         self.init(id: 0)
-        ///*
         self.name = decoder.decodeObjectForKey("name") as! String
         self.des = decoder.decodeObjectForKey("des") as! String
         self.picture = decoder.decodeObjectForKey("picture") as! UIImage
         self.id = decoder.decodeIntegerForKey("id")
         self.data = decoder.decodeObjectForKey("data") as! [[Double]]
-        //*/
         print("Decode one area")
     }
     
@@ -44,19 +42,14 @@ class Area: NSObject, NSCoding {
     }
     
     func encodeWithCoder(coder: NSCoder) {
-        ///*
         coder.encodeObject(name, forKey: "name")
         coder.encodeObject(des, forKey: "des")
         coder.encodeObject(picture, forKey: "picture")
         coder.encodeInteger(id, forKey: "id")
         coder.encodeObject(data, forKey: "data")
-        //*/
         print("Encode one area")
     }
     
-    //func fingerprintsAggregateData() -> [[Double]] {
-    //    return fingerprints.list.reduce([]) { $0+$1.data }
-    //}
 }
 
 private func makeDefaultPicture() -> UIImage {

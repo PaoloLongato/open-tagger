@@ -22,13 +22,20 @@ enum BeaconMonitorAuthorisationType {
     case WhenInUse
 }
 
+protocol BeaconMonitorDelegate: class {
+    func beaconMonitor(monitor: BeaconMonitor, didFindCLBeacons beacons: [CLBeacon])
+    func beaconMonitor(monitor: BeaconMonitor, errorScanningBeacons error: BeaconMonitorError)
+    func beaconMonitor(monitor: BeaconMonitor, didFindStatusErrors errors: [BeaconMonitorError])
+    func beaconMonitor(monitor: BeaconMonitor, didFindBLEErrors errors: [BeaconMonitorError])
+    func beaconMonitor(monitor: BeaconMonitor, didReceiveAuthorisation authorisation: BeaconMonitorAuthorisationType)
+}
+
 import Foundation
 import CoreLocation
 import CoreBluetooth
 
 class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelegate {
     let uuid: String
-    //weak var delegate: BeaconMonitorDelegate!
     let requiredAuthorisation: BeaconMonitorAuthorisationType
     private var uuidPrivate: NSUUID?
     private var beaconRegion: CLBeaconRegion?
@@ -40,7 +47,6 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         self.locationManager = CLLocationManager()
         let options = [CBCentralManagerOptionShowPowerAlertKey: false]
         self.bluetoothManager = CBCentralManager()
-        //self.delegate = delegate
         self.requiredAuthorisation = authorisation
         self.uuid = UUID
         if let id = NSUUID(UUIDString: UUID) {
@@ -78,14 +84,17 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         var returnValue: [BeaconMonitorError] = []
         if bluetoothManager.state == .PoweredOff {
             returnValue.append(.BluetoothOff)
+            // DEBUG PRINTS:
             //println("OFF")
         }
         if bluetoothManager.state == .Resetting || bluetoothManager.state == .Unknown {
             returnValue.append(.BluetoothUpdating)
+            // DEBUG PRINTS:
             //println("Unknown")
         }
         if bluetoothManager.state == .Unauthorized {
             returnValue.append(.BluetoothUnauthorized)
+            // DEBUG PRINTS:
             //println("Unauthorized")
         }
         return returnValue
@@ -94,10 +103,8 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
     @objc func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         switch status {
         case .AuthorizedWhenInUse:
-            //delegate.beaconMonitor(self, didReceiveAuthorisation: .WhenInUse)
             self.callDelegates(self, didReceiveAuthorisation: .WhenInUse)
         case .AuthorizedAlways:
-            //delegate.beaconMonitor(self, didReceiveAuthorisation: .Always)
             self.callDelegates(self, didReceiveAuthorisation: .Always)
         default: print(status)
         }
@@ -128,7 +135,7 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         let errors = statusErrors()
         if errors.isEmpty {startMonitoring()}
         
-        // TESTING MODE?
+        // TESTING MODE?  Use the following code as a template for generating CLBeacons if you need to test and do not have real beacons.  Copy and paste the code where relevant.
         /*
         let testMode = false
         var testBeacons: [CLBeacon] = []
@@ -140,36 +147,8 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         testBeacons[0].setValue(52643, forKey: "minor")
         testBeacons[0].setValue(0.5, forKey: "accuracy")
         
-        let beacon2 = CLBeacon()
-        testBeacons.append(beacon2)
-        testBeacons[1].setValue(NSUUID(UUIDString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e"), forKey: "proximityUUID")
-        testBeacons[1].setValue(60667, forKey: "major")
-        testBeacons[1].setValue(31043, forKey: "minor")
-        testBeacons[1].setValue(1, forKey: "accuracy")
-        
-        let beacon3 = CLBeacon()
-        testBeacons.append(beacon3)
-        testBeacons[2].setValue(NSUUID(UUIDString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e"), forKey: "proximityUUID")
-        testBeacons[2].setValue(57085, forKey: "major")
-        testBeacons[2].setValue(15711, forKey: "minor")
-        testBeacons[2].setValue(1, forKey: "accuracy")
-        
-        let beacon4 = CLBeacon()
-        testBeacons.append(beacon4)
-        testBeacons[3].setValue(NSUUID(UUIDString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e"), forKey: "proximityUUID")
-        testBeacons[3].setValue(58898, forKey: "major")
-        testBeacons[3].setValue(46563, forKey: "minor")
-        testBeacons[3].setValue(1, forKey: "accuracy")
-        
-        let beacon5 = CLBeacon()
-        testBeacons.append(beacon5)
-        testBeacons[4].setValue(NSUUID(UUIDString: "f7826da6-4fa2-4e98-8024-bc5b71e0893e"), forKey: "proximityUUID")
-        testBeacons[4].setValue(16155, forKey: "major")
-        testBeacons[4].setValue(55724, forKey: "minor")
-        testBeacons[4].setValue(1, forKey: "accuracy")
-        
         if testMode {
-        self.delegate.beaconMonitor(self, didFindCLBeacons: testBeacons)
+            self.delegate.beaconMonitor(self, didFindCLBeacons: testBeacons)
         }
         */
     }
@@ -225,17 +204,17 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
         print("Region monitor starting \(beaconRegion)")
     }
     
+    // Unimplemented
     @objc func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
-        //locationManager.startRangingBeaconsInRegion(beaconRegion)
         print("Ranging beacons starting")
     }
     
-    // When does this happen?
+    // Unimplemented
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         print("didFailWithError " + error.description)
     }
     
-    // When does this happen?
+    // Unimplemented
     func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
         print("monitoringDidFailForRegion " + error.description)
     }
@@ -243,28 +222,14 @@ class BeaconMonitor: NSObject, CLLocationManagerDelegate, CBCentralManagerDelega
     func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
         let bcs = beacons 
         if bcs.count > 0 {
-            //self.delegate.beaconMonitor(self, didFindCLBeacons: bcs)
             self.callDelegates(self, didFindBeacons: bcs)
         }
     }
     
     // BLUETOOTH CHANGE OF STATE
     internal func centralManagerDidUpdateState(central: CBCentralManager) {
-        //if central.state != .PoweredOn {
-       //     delegate.beaconMonitor(self, didFindStatusErrors: statusErrors())
-       // }
-        //delegate.beaconMonitor(self, didFindBLEErrors: bleErrors())
         self.callDelegates(self, didFindBLEErrors: bleErrors())
     }
     
 }
 
-
-// Neeed to change protocol to return BOTH [CMBBeacon] and [CLBeacon]
-protocol BeaconMonitorDelegate: class {
-    func beaconMonitor(monitor: BeaconMonitor, didFindCLBeacons beacons: [CLBeacon])
-    func beaconMonitor(monitor: BeaconMonitor, errorScanningBeacons error: BeaconMonitorError)
-    func beaconMonitor(monitor: BeaconMonitor, didFindStatusErrors errors: [BeaconMonitorError])
-    func beaconMonitor(monitor: BeaconMonitor, didFindBLEErrors errors: [BeaconMonitorError])
-    func beaconMonitor(monitor: BeaconMonitor, didReceiveAuthorisation authorisation: BeaconMonitorAuthorisationType)
-}

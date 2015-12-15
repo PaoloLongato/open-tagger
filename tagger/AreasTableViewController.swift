@@ -21,9 +21,6 @@ class AreasTableViewController: UITableViewController, BeaconMonitorDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
         
         NSNotificationCenter.defaultCenter().addObserverForName("secondTabActive", object: nil, queue: nil) { (notif) in
             guard (self.monitor != nil) else {
@@ -59,7 +56,7 @@ class AreasTableViewController: UITableViewController, BeaconMonitorDelegate {
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().postNotificationName("firstTabInactive", object: self.areas.makeCopy())
         super.viewDidDisappear(animated)
-        // MARK: DEBUG
+        // DEBUG PRINTS:
         //print(areas.data())
     }
     
@@ -90,7 +87,7 @@ class AreasTableViewController: UITableViewController, BeaconMonitorDelegate {
             areas.list.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         default:
-            print("invalid editing style")
+            print("Invalid editing style")
         }
     }
 
@@ -112,6 +109,9 @@ class AreasTableViewController: UITableViewController, BeaconMonitorDelegate {
     func reloadTable() {
         tableView.reloadData()
     }
+    
+    // MARK: - Unimplemented table view editing methods
+    // At the moment the only supported tavle view editing is "swipe left" to delete a cell / area
         
     /*
     // Override to support conditional editing of the table view.
@@ -150,10 +150,7 @@ class AreasTableViewController: UITableViewController, BeaconMonitorDelegate {
 
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
         if segue.identifier == "editArea" {
             let index = sender!.tag
             let VC = segue.destinationViewController as! EditAreaViewController
@@ -162,67 +159,81 @@ class AreasTableViewController: UITableViewController, BeaconMonitorDelegate {
         }
     }
     
-    // BEACON MONITOR DELEGATE METHODS
+    // MARK: - BEACON MONITOR DELEGATE METHODS
+    
     func beaconMonitor(monitor: BeaconMonitor, didFindCLBeacons beacons: [CLBeacon]){
-        //beacons.map({print($0.major)})
+        
+        // Process ans store raw RSSI data:
+        // CLBeacons are "translated" into pure Swift Beacon objects
+        // Push beacons in the appropriate queues. If 4 or fewer a beacon readings are missing or their RSSI == 0 (Apple calculations gone wrong), then:
+        // the latest available Beacon reading are used to fill such missing value.  Else:
+        // a "null Beacon" placeholder is used.
+        // Beacons data are then stored only if there is an area "label" associated to it (i.e. the user has selected a cell and is therefore "fingerprinting an area")
+        
         guard (self.beacons != nil) else { return }
         let bcs = beacons.reduce([]) { $0 + [Beacon(beacon: $1)] }
         self.beacons = self.beacons!.pushMatchingElementsIn(bcs)
-        //let rssi: [[Double]] = self.beacons!.getItemsInAllQueues().reduce([]) { $0 + [$1.map({ Double($0.rssi) })] }.map( { Utility.entryFilter($0, threshold: 5) } )
-        //let avgRssi: [Double] = rssi.map( { Utility.average($0, ignoring: 0) } ).map({ if $0 == nil || $0 == 0 { return -95 } else { return $0! } })
-        //let maxRssi: Double = avgRssi.maxElement()!  // check here!!!
-        //let relativeRssi: [Double] = avgRssi.map({ $0 / maxRssi })
         let avgRssi: [Double] = Utility.filterRssi(self.beacons!.getItemsInAllQueues())
         var relativeRssi: [Double] = [] //= Histogram(data: avgRssi)?.distribution()
         if let rr = Histogram(data: avgRssi)?.distribution() {
             relativeRssi = rr
         }
-        //print(rssi)
+        
+        if selectedCell > -1 && relativeRssi.count > 0 {
+            self.areas.list[selectedCell].data.append(relativeRssi)
+        }
+
+        // DEBUG PRINTS:
+        //beacons.map({print($0.major)})
         //print(avgRssi)
         //print(relativeRssi)
         //print(selectedCell)
-        if selectedCell > -1 && relativeRssi.count > 0 {
-            self.areas.list[selectedCell].data.append(relativeRssi)
-            if let path = selectedCellIndexPath {
-                // add datapoints number
-                //let cell = tableView.cellForRowAtIndexPath(path) as! FingerprintsCellView
-                //cell.dataPointsNumber.text = "\(area.fingerprints.list[path.row].data.count)"
-            }
-        }
+        
     }
     
     func beaconMonitor(monitor: BeaconMonitor, errorScanningBeacons error: BeaconMonitorError){
+        // Unimplemented error handling
+        // DEBUG PRINTS:
         print(error)
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didFindStatusErrors errors: [BeaconMonitorError]) {
+        // Unimplemented error handling
+        // DEBUG PRINTS:
         let _ = errors.map({print($0)})
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didFindBLEErrors errors: [BeaconMonitorError]) {
+        // Unimplemented error handling
+        // DEBUG PRINTS:
         let _ = errors.map({print($0)})
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didReceiveAuthorisation authorisation: BeaconMonitorAuthorisationType) {
-        print("Authorisation")
+        // DEBUG PRINTS:
+        //print("Authorisation received")
         monitor.start()
     }
     
-    // TABLE VIEW DELEGATE METHODS
+    // MARK: - TABLE VIEW DELEGATE METHODS
+    
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        print("DESELECTED")
+        // DEBUG PRINTS:
+        //print("DESELECTED")
         selectedCell = -1
         selectedCellIndexPath = nil
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("DID SELECT")
+        // DEBUG PRINTS:
+        //print("DID SELECT")
         selectedCell = indexPath.row
         selectedCellIndexPath = indexPath
     }
     
     override func tableView(tableView: UITableView, willDeselectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        print("WILL DESELECT")
+        // DEBUG PRINTS:
+        //print("WILL DESELECT")
         return indexPath
     }
     

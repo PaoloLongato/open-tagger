@@ -10,7 +10,7 @@ import Foundation
 
 class Utility {
 
-    // MARK: Time axis operations
+    // MARK: - Time axis operations
     
     class func average(observations: [Double]) -> Double? {
         if observations.count > 0 {
@@ -38,9 +38,7 @@ class Utility {
         return avgRssi
     }
     
-    
-    
-    // MARK: Spectrum operations
+    // MARK: - Spectrum operations
     
     class func areaForecasts(currentArray: [Double], labels: [Int], arraysDatabase: [[Double]]) -> [(Int, Double)] {
         guard arraysDatabase.count > 0 else { return [] }

@@ -13,6 +13,15 @@ class beaconDB: NSObject {
 
     override init(){
         
+        // List ALL of the beacons (associated to the area you want to map) here.
+        // The proximity UUID string provided below corresponds to the standard Kontakt beacons that I have used for testing.
+        // If you have other brands or you had your proximity UUID customized, change accordingly.
+        // Majors and Minors are entirely dependent on the sepcific beacons you have and your beacons security settings (e.g. "temporary" major and minor values)
+        // IMPORTANT: in a deployment sutuation, this list will be updated very frequently from your back end AND will match the beacons that you have actually deployed.
+        // IMPORTANT: you can choose to list ALL of your beacons here, the algorithm should work regardless.
+        // IMPORTANT: at the very least, list here all the beacons related to a specific deployment.  After that you cannot add or remove beacons without impacting performance.
+        // IMPORTANT: you can modify a physical deployemnt with limited re-fingerprinting but that depends on the specific layout of the areas.
+        
         let uuidString = "f7826da6-4fa2-4e98-8024-bc5b71e0893e"
         var major:[Int] = []; var minor:[Int] = []
         major.append(11254); minor.append(11380)

@@ -10,6 +10,7 @@ class ForecastViewController: UIViewController, BeaconMonitorDelegate {
     var beacons: Reel<Beacon>?
     var currentFingerprint: [Double] = []
     var currentForecast: Int?
+    
     @IBOutlet weak var currentImage: UIImageView!
     @IBOutlet weak var area1: UILabel!
     @IBOutlet weak var area2: UILabel!
@@ -21,8 +22,6 @@ class ForecastViewController: UIViewController, BeaconMonitorDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
         
         NSNotificationCenter.defaultCenter().addObserverForName("firstTabActive", object: nil, queue: nil) { (notif) in
             guard (self.monitor != nil) else { return }
@@ -30,8 +29,6 @@ class ForecastViewController: UIViewController, BeaconMonitorDelegate {
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName("firstTabInactive", object: nil, queue: nil) { (notif) in
-            print("********")
-            print(notif.object)
             if let sender = notif.object as? Areas {
                 self.areas = sender
             }
@@ -73,47 +70,44 @@ class ForecastViewController: UIViewController, BeaconMonitorDelegate {
     }
     
     
-    // BEACON MONITOR DELEGATE METHODS
+    // MARK: - BEACON MONITOR DELEGATE METHODS
     
     func beaconMonitor(monitor: BeaconMonitor, didFindCLBeacons beacons: [CLBeacon]){
-        //beacons.map({print($0.major)})
+        
+        // Process raw RSSI data:
+        // CLBeacons are "translated" into pure Swift Beacon objects
+        // Push beacons in the appropriate queues. If 4 or fewer a beacon readings are missing or their RSSI == 0 (Apple calculations gone wrong), then:
+        // the latest available Beacon reading are used to fill such missing value.  Else:
+        // a "null Beacon" placeholder is used.
+        // Beacons data are then filtered.  5 seconds moving average is calculated. There needs to be at least 5 good Beacon readings (after missing values have been handled)
+        // RSSI array is extracted and turned into a "probability" distribution (relative RSSI).  This should guarantee "device independency" to a reasonable level.
+        // Such RSSI is compared with previously stored fingerprints and closest match extracted.  Nearest Neighbour approach.
+       
         guard (self.beacons != nil) else { return }
         let bcs = beacons.reduce([]) { $0 + [Beacon(beacon: $1)] }
         self.beacons = self.beacons!.pushMatchingElementsIn(bcs)
-        //let rssi: [[Double]] = self.beacons!.getItemsInAllQueues().reduce([]) { $0 + [$1.map({ Double($0.rssi) })] }.map( { Utility.entryFilter($0, threshold: 5) } )
-        //let avgRssi: [Double] = rssi.map( { Utility.average($0, ignoring: 0) } ).map({ if $0 == nil { return -95 } else { return $0! } })
-        //let maxRssi: Double = avgRssi.maxElement()!  // check here!!!
-        //let relativeRssi: [Double] = avgRssi.map({ $0 / maxRssi })
         let avgRssi: [Double] = Utility.filterRssi(self.beacons!.getItemsInAllQueues())
-        var relativeRssi: [Double] = [] //= Histogram(data: avgRssi)?.distribution()
+        var relativeRssi: [Double] = []
         if let rr = Histogram(data: avgRssi)?.distribution() {
             relativeRssi = rr
             self.currentFingerprint = rr
         }
-        //print(rssi)
-        //print(avgRssi)
-        //print(relativeRssi)
         
-        // Lookup code HERE
         let data = self.areas.data()
-        print(data)
         let labels = data.1
         let fingerprints = data.0
         let rawForecasts = Utility.areaForecasts(relativeRssi, labels: labels, arraysDatabase: fingerprints)
-        print(rawForecasts.first)
+        
         if let forecast = rawForecasts.first {
             self.currentForecast = forecast.0
             if let img = self.areas.area(forecast.0)?.picture {
                 self.currentImage.image = img
             }
-            
             self.area1.text = String(forecast.0)
             self.dist1.text = String(forecast.1)
-            
         }
         
         if rawForecasts.count > 1 {
-            
             self.area2.text = String(rawForecasts[1].0)
             self.dist2.text = String(rawForecasts[1].1)
         }
@@ -123,22 +117,36 @@ class ForecastViewController: UIViewController, BeaconMonitorDelegate {
             self.dist3.text = String(rawForecasts[2].1)
         }
         
+        // DEBUG PRINTS:
+        //beacons.map({print($0.major)})
+        //print(avgRssi)
+        //print(relativeRssi)
+        //print(data)
+        //print(rawForecasts.first)
+        
     }
     
     func beaconMonitor(monitor: BeaconMonitor, errorScanningBeacons error: BeaconMonitorError){
+        // Unimplemented error handling
+        // DEBUG PRINTS:
         print(error)
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didFindStatusErrors errors: [BeaconMonitorError]) {
+        // Unimplemented error handling
+        // DEBUG PRINTS:
         let _ = errors.map({print($0)})
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didFindBLEErrors errors: [BeaconMonitorError]) {
+        // Unimplemented error handling
+        // DEBUG PRINTS:
         let _ = errors.map({print($0)})
     }
     
     func beaconMonitor(monitor: BeaconMonitor, didReceiveAuthorisation authorisation: BeaconMonitorAuthorisationType) {
-        print("Authorisation")
+        // DEBUG PRINTS:
+        //print("Authorisation received")
         monitor.start()
     }
     

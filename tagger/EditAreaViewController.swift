@@ -18,7 +18,7 @@ class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
         if let _ = area {
             name.text = area!.name
             des.text = area!.des
@@ -31,6 +31,13 @@ class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewD
             self.view.addGestureRecognizer(tap)
         }
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    // MARK: - Text editing actions, functions and delegate methods
     
     func dismissKeyboard() {
         self.view.endEditing(true)
@@ -45,22 +52,7 @@ class EditAreaViewController: UIViewController, UITextFieldDelegate, UITextViewD
         area!.des = des.text
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    // MARK: Image picker delegate methods and take a photo action
+    // MARK: - Image picker delegate methods and take a photo actions and methods
     
     @IBAction func takePhoto(sender: UIBarButtonItem) {
         let picker = UIImagePickerController()

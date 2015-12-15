@@ -76,8 +76,6 @@ class Areas: NSObject, NSCoding {
     }
     
     func data() -> ([[Double]], [Int]){
-        // Output couple:
-        // In first position = fingerprint, in second position = label = area id
         let output = list.reduce( ([[Double]](), [Int]()) )
         {
             (acc, new) in
