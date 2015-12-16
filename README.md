@@ -8,6 +8,7 @@ https://youtu.be/hITAQ6yPZ3I
 This app will allow you to use any Bluetooth beacon or iBeacon of your chouce and quickly create indoor fingerprints in any location near to a group of beacons.  For example, in the video above, I have used two beacos to map 3 distinct areas in a relatively small room.  According to their relative positions, I could have mapped a few more areas, in the same room, with just two beacons
 
 1 - Lay out your beacons, ideally high up (e.g. on che cieling) to limit interference with crowds of people.
+
 2 - Several configurations are possible: (e.g. in the corners of a room or lay them down on a "path" up to several meters apart).
 3 - If you choose to lay beacons out on corners, start with two corners on the same side of the room and see whether that works well.  If it does not, put one beacon in the middle of the room and / or add beacons on the other corners.
 4 - If you choose to lay the beacons out on "path", tey and space them by 10 meters or more.  If it does not work well you probably need more beacons.  Most beacons have a 50 meters range but in reality, past the 10 meters, the signal might be too erratic to be useful (but it all depends on the transmission power - TxPower).
