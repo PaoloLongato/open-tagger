@@ -36,7 +36,7 @@ This app will allow you to use any Bluetooth beacon or iBeacon of your chouce an
 - ...
 
 # Limitations and further improvementes
-You could use this application to carry out a full fingerprinting of an indoor space, but, at the moment, there is no mechanism to associate a fingerprint to an exact coordinate point on a blueprint and there is no mechanism for determining an approximate position should a user be between two or more fingerprints. Furthermore, making a full blown navigation app (that is actually heading sensitive and responsive as the user is walking) would require the implementation of some sort of sensor fusion capability (accelerometer, gyroscope, compass). 
+You could use this application to carry out a full fingerprinting of an indoor space, but, at the moment, there is no mechanism to associate a fingerprint to an exact coordinate point on a blueprint and there is no mechanism for determining an approximate position should a user be between two or more fingerprints. Furthermore, making a full blown navigation app (that is actually heading sensitive and responsive as the user is walking) might require compass and possibly the implementation of pedestrian dead reckoning.
 
 # Contact
 paolo [at] dazzlecube.com
